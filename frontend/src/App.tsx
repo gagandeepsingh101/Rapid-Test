@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import { Camera, Upload, Home, User, LogOut, Menu, X, Moon, Sun } from 'lucide-react';
 import { ThemeProvider, useTheme } from './context/ThemeContext';
 import toast, { Toaster } from 'react-hot-toast';
@@ -19,12 +19,14 @@ function AppContent() {
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token'));
   const [currentUser, setCurrentUser] = useState(JSON.parse(localStorage.getItem('user') || 'null'));
   const { theme, toggleTheme } = useTheme();
+  const navigate = useNavigate();
 
   const handleLogin = (userData) => {
     setCurrentUser(userData);
     setIsLoggedIn(true);
     localStorage.setItem('user', JSON.stringify(userData));
     toast.success('Logged in successfully!', { style: { background: theme === 'dark' ? '#1E293B' : '#FFF', color: theme === 'dark' ? '#E2E8F0' : '#0F172A' } });
+    navigate('/dashboard');
   };
 
   const handleLogout = () => {
@@ -34,6 +36,7 @@ function AppContent() {
     localStorage.removeItem('user');
     localStorage.removeItem('userId');
     toast.success('Logged out successfully!', { style: { background: theme === 'dark' ? '#1E293B' : '#FFF', color: theme === 'dark' ? '#E2E8F0' : '#0F172A' } });
+    navigate('/login');
   };
 
   const toggleMenu = () => {
@@ -48,7 +51,7 @@ function AppContent() {
           <div className="flex items-center justify-between p-4 max-w-7xl mx-auto">
             <h1
               className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[var(--primary)] to-[var(--secondary)] cursor-pointer"
-              onClick={() => window.location.href = '/dashboard'}
+              onClick={() => navigate('/dashboard')}
             >
               Rapid Test
             </h1>
@@ -59,6 +62,14 @@ function AppContent() {
                 aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
               >
                 {theme === 'light' ? <Moon size={20} className="text-[var(--primary)]" /> : <Sun size={20} className="text-[var(--secondary)]" />}
+              </button>
+              <button
+                onClick={handleLogout}
+                className="hidden md:flex items-center gap-2 p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-200 ripple"
+                aria-label="Logout"
+              >
+                <LogOut size={20} className={theme === 'light' ? 'text-[var(--primary)]' : 'text-[var(--secondary)]'} />
+                <span className="text-sm font-medium">Logout</span>
               </button>
               <button
                 className="md:hidden p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-200"
@@ -81,7 +92,7 @@ function AppContent() {
                   <li
                     key={path}
                     className="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer transition-all duration-200 fade-in"
-                    onClick={() => { window.location.href = path; setIsMenuOpen(false); }}
+                    onClick={() => { navigate(path); setIsMenuOpen(false); }}
                   >
                     <Icon size={20} />
                     <span>{label}</span>
