@@ -126,28 +126,6 @@ function AppContent() {
           <Route path="/" element={<Navigate to="/login" />} />
         </Routes>
       </main>
-      {isLoggedIn && (
-        <footer className="bg-[var(--bg-light)] shadow-t fixed bottom-0 left-0 right-0 z-20 dark:glass fade-in">
-          <div className="flex justify-around p-4 max-w-7xl mx-auto">
-            {[
-              { path: '/dashboard', icon: Home, label: 'Home' },
-              { path: '/camera', icon: Camera, label: 'Test' },
-              { path: '/history', icon: Upload, label: 'History' },
-              { path: '/profile', icon: User, label: 'Profile' },
-            ].map(({ path, icon: Icon, label }) => (
-              <button
-                key={path}
-                onClick={() => window.location.href = path}
-                className="flex flex-col items-center gap-1 text-[var(--text-light)] hover:text-[var(--primary)] transition-all duration-200"
-                aria-label={`Go to ${label.toLowerCase()}`}
-              >
-                <Icon size={20} />
-                <span className="text-xs">{label}</span>
-              </button>
-            ))}
-          </div>
-        </footer>
-      )}
     </div>
   );
 }
