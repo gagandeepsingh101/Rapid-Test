@@ -109,7 +109,7 @@ const Signup: React.FC<SignupProps> = ({ onSignup }) => {
               className="mt-1 w-full p-2 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-800 focus:ring-2 focus:ring-[var(--primary)] transition-all duration-200 shadow-[0_0_10px_rgba(124,58,237,0.2)] dark:shadow-[0_0_10px_rgba(167,139,250,0.2)] hover:scale-[1.02]"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="Create a password"
+              placeholder="Enter your password"
               required
               aria-required="true"
             />
